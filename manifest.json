@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "GreenPrompt",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [],
+  "host_permissions": [
+    "https://api-inference.huggingface.co/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+
+  },
+  "web_accessible_resources": []
+}

@@ -11,9 +11,7 @@
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
-    // 'wasm-unsafe-eval' can be removed if no local Wasm is used.
-    // If you get connect-src errors for the fetch, add:
-    // "connect-src 'self' https://api-inference.huggingface.co;"
+
   },
-  "web_accessible_resources": [] // Can be empty if not loading local models/wasm
+  "web_accessible_resources": []
 }

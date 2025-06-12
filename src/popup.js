@@ -1,12 +1,12 @@
 // src/popup.js
-console.log("%%%% POPUP.JS API MODE - START - v2.3 (Falconsai/text_summarization) %%%%");
+console.log("%%%% POPUP.JS API MODE - START - v2.4 (Mixtral/Instruction) %%%%");
 
 // --- Configuration ---
-const HF_API_TOKEN = "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"; // !!! REPLACE THIS !!!
-const MODEL_API_URL = "https://api-inference.huggingface.co/models/Falconsai/text_summarization";
+const HF_API_TOKEN = "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"; // Make sure this is valid
+const MODEL_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1";
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("%%%% DOMContentLoaded event fired - API v2.3 (Falconsai/text_summarization) %%%%");
+    console.log("%%%% DOMContentLoaded event fired - API v2.4 (Mixtral) %%%%");
 
     const promptInputElement = document.getElementById('prompt-input');
     const optimizeButton = document.getElementById('optimize-btn');
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     optimizeButton.disabled = false;
 
     optimizeButton.addEventListener('click', async () => {
-        console.log("%%%% Optimize button clicked - API v2.3 (Falconsai/text_summarization) %%%%");
+        console.log("%%%% Optimize button clicked - API v2.4 (Mixtral) %%%%");
         const promptToOptimize = promptInputElement.value;
 
         if (!promptToOptimize.trim()) {
@@ -37,16 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (statusDiv) statusDiv.textContent = 'Rewriting prompt via API...';
+        if (statusDiv) statusDiv.textContent = 'Rewriting prompt via Mixtral API...';
         if (outputDiv) outputDiv.textContent = '';
         optimizeButton.disabled = true;
 
         try {
-            const rewrittenText = await callFalconsaiSummarizer(promptToOptimize);
+            const rewrittenText = await callMixtralRewriter(promptToOptimize);
             if (outputDiv) outputDiv.textContent = rewrittenText;
             if (statusDiv) statusDiv.textContent = 'Prompt rewritten successfully!';
         } catch (error) {
-            console.error("Error during API call or processing:", error);
+            console.error("Error during Mixtral API call or processing:", error);
             if (outputDiv) outputDiv.textContent = `Error: ${error.message}`;
             if (statusDiv) statusDiv.textContent = 'Failed to rewrite prompt.';
         } finally {
@@ -54,27 +54,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    console.log("%%%% Event listener attached to optimize-btn - API v2.3 (Falconsai/text_summarization) %%%%");
+    console.log("%%%% Event listener attached to optimize-btn - API v2.4 (Mixtral) %%%%");
 });
 
-async function callFalconsaiSummarizer(promptToOptimize) {
+async function callMixtralRewriter(promptToOptimize) {
     const statusDiv = document.getElementById('status');
 
     const requestBody = {
-        inputs: promptToOptimize,
+        inputs: `You are a prompt optimizer. Rewrite the following prompt to be shorter, simpler, and more concise using the fewest possible tokens while keeping the intent. Do NOT answer the question, only rewrite the prompt: "${promptToOptimize}"`,
         parameters: {
-            max_length: 60,
-            min_length: 5,
+            max_new_tokens: 60,
             temperature: 0.7,
-            top_k: 50,
             top_p: 0.95,
-            do_sample: false,
-            early_stopping: true
+            do_sample: true
         }
     };
 
     console.log(`Sending to Hugging Face (${MODEL_API_URL}):`, JSON.stringify(requestBody, null, 2));
-    if (statusDiv) statusDiv.textContent = 'Calling Falconsai Summarizer API...';
+    if (statusDiv) statusDiv.textContent = 'Calling Mixtral Rewriter API...';
 
     const response = await fetch(MODEL_API_URL, {
         method: 'POST',
@@ -86,7 +83,7 @@ async function callFalconsaiSummarizer(promptToOptimize) {
     });
 
     if (!response.ok) {
-        const errorBody = await response.text(); 
+        const errorBody = await response.text();
         console.error(`Hugging Face API Error (${response.status}): ${response.statusText}`, errorBody);
         let specificError = "API request failed.";
         try {
@@ -102,15 +99,14 @@ async function callFalconsaiSummarizer(promptToOptimize) {
     const results = await response.json();
     console.log("Hugging Face API Result:", results);
 
-    let rewrittenText = results[0]?.summary_text || results[0]?.generated_text;
-
+    let rewrittenText = results[0]?.generated_text || results.generated_text;
     if (rewrittenText) {
         rewrittenText = rewrittenText.trim();
         return rewrittenText.length > 1 ? rewrittenText : promptToOptimize;
     } else {
         const sampleResponse = JSON.stringify(results, null, 2).substring(0, 300);
-        throw new Error(`No usable summary returned. Got: ${sampleResponse}...`);
+        throw new Error(`No usable result returned. Got: ${sampleResponse}...`);
     }
 }
 
-console.log("%%%% POPUP.JS SCRIPT BOTTOM - API v2.3 (Falconsai/text_summarization) %%%%");
+console.log("%%%% POPUP.JS SCRIPT BOTTOM - API v2.4 (Mixtral) %%%%");

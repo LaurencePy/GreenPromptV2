@@ -1,0 +1,84 @@
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.container {
+    width: 400px;
+    background-color: #606C38;
+}
+
+
+#header {
+    background-color: #606C38;
+    padding: 15px;
+    text-align: center;
+}
+
+#header img {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+
+#optimize-btn {
+  margin-top: 10px;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 12px;
+  font-weight: bold;
+  border: none;
+  background-color: #283618;
+  color: #606C38;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#options-btn {
+  margin-top: 10px;
+  width: calc(30%);
+  margin-left: 0px;
+  margin-right: 60%;
+  padding: 12px;
+  font-weight: bold;
+  border: none;
+  background-color: #283618;
+  color: #606C38;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#prompt-input, .stats, #status {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+}
+
+#prompt-input {
+    height: 100px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: none;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#status {
+  margin-top: 10px;
+  font-size: 12px;
+  color: green;
+  min-height: 1em;
+}
+
+.stats {
+    margin-top: 15px;
+    padding-bottom: 10px;
+}

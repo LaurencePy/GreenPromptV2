@@ -1,21 +1,22 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
-module.exports = { // Corrected this line
-  entry: './src/popup.js', // This assumes your popup.js is in a 'src' folder
+module.exports = {
+  // FIX 1: Tell Webpack that popup.js is a file in your project's root directory.
+  entry: './popup.js', 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'popup.bundle.js',
+    filename: 'popup.js',
   },
   plugins: [
     new CopyPlugin({
       patterns: [
-        // Remove model copying if models are not used locally anymore
-        // {
-        //   from: path.resolve(__dirname, 'models'),
-        //   to: path.resolve(__dirname, 'dist/models'),
-        //   noErrorOnMissing: true,
-        // },
+        // FIX 2: Added popup.css so your styles are included in the build.
+        {
+          from: path.resolve(__dirname, 'popup.css'),
+          to: path.resolve(__dirname, 'dist/popup.css'),
+          noErrorOnMissing: false,
+        },
         {
           from: path.resolve(__dirname, 'popup.html'),
           to: path.resolve(__dirname, 'dist/popup.html'),
@@ -26,9 +27,24 @@ module.exports = { // Corrected this line
           to: path.resolve(__dirname, 'dist/manifest.json'),
           noErrorOnMissing: false,
         },
+        {
+          from: path.resolve(__dirname, 'options.html'),
+          to: path.resolve(__dirname, 'dist/options.html'),
+          noErrorOnMissing: false,
+        },
+        {
+          from: path.resolve(__dirname, 'options.js'),
+          to: path.resolve(__dirname, 'dist/options.js'),
+          noErrorOnMissing: false,
+        },
+        {
+          from: path.resolve(__dirname, 'icons'),
+          to: path.resolve(__dirname, 'dist/icons'),
+          noErrorOnMissing: false,
+        },
       ],
     }),
   ],
-  // Optional: If you still see issues, ensure mode is set, though CLI usually handles this
-  // mode: 'production', // Or 'development'
+  // It's good practice to explicitly set the mode.
+  mode: 'production', 
 };

@@ -1,36 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Prompt Optimizer</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 1em; }
-        label { font-weight: bold; }
-        #optimized-output { white-space: pre-wrap; background: #eee; padding: 10px; margin-top: 10px; }
-        .stats { margin-top: 10px; }
-        .stats span { font-weight: bold; }
-    </style>
+    <title>GreenPrompt</title>
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="popup.css">
 </head>
 <body>
 
-<h2>Prompt Optimizer with Token & Energy Tracking</h2>
+    <div class="container">
+        <div id="header">
+            <img src="icons/small stack transparent.png" alt="GreenPrompt">
+        </div>
+        <textarea id="prompt-input" rows="5" placeholder="Enter the prompt you want to shorten"></textarea>
+        <button id="optimize-btn">Optimize & Copy</button>
+        <div id="status"></div>
 
-<textarea id="prompt-input" rows="4" cols="60" placeholder="Enter your prompt here..."></textarea><br />
-<button id="optimize-btn">Optimize Prompt</button>
-
-<div id="status" style="margin-top: 10px; font-style: italic;"></div>
-
-<h3>Optimized Prompt:</h3>
-<div id="optimized-output"></div>
-
-<div class="stats">
-    <p>Input Tokens: <span id="input-tokens">0</span></p>
-    <p>Output Tokens: <span id="output-tokens">0</span></p>
-    <p>Estimated Energy Usage (units): <span id="energy-usage">0</span></p>
-    <p>All-Time Token Savings: <span id="total-token-savings">0</span></p>
-</div>
-
-<script src="popup.bundle.js"></script>
-
+        <div class="stats">
+            <p>Initial Tokens: <span id="input-tokens">0</span></p>
+            <p>Optimized Tokens: <span id="output-tokens">0</span></p>
+        </div>
+        
+        <footer>
+            <button id="options-btn">Settings</button>
+        </footer>
+    </div>
+    <script src="popup.js"></script>
 </body>
 </html>

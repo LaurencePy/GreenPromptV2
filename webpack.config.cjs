@@ -35,6 +35,11 @@ module.exports = {
           to: path.resolve(__dirname, 'dist/options.js'),
           noErrorOnMissing: false,
         },
+                {
+          from: path.resolve(__dirname, 'background.js'),
+          to: path.resolve(__dirname, 'dist/background.js'),
+          noErrorOnMissing: false,
+        },
         {
           from: path.resolve(__dirname, 'icons'),
           to: path.resolve(__dirname, 'dist/icons'),

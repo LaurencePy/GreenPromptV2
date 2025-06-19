@@ -1,0 +1,1 @@
+chrome.runtime.onInstalled.addListener((e=>{"install"===e.reason&&chrome.tabs.create({url:"options.html"})}));

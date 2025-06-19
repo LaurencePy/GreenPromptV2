@@ -58,15 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
     optimizeButton.disabled = false;
 
 optimizeButton.addEventListener('click', async () => {
+    const originalButtonText = 'Optimize & Copy';
     const promptToOptimize = promptInputElement.value.trim();
 
     if (!promptToOptimize) {
-        statusDiv.textContent = 'Please enter a prompt';
+        statusDiv.textContent = 'Please enter a prompt.';
         return;
     }
 
-    statusDiv.textContent = 'Getting API Key...';
+    statusDiv.textContent = '';
     optimizeButton.disabled = true;
+    optimizeButton.textContent = 'Optimizing...';
 
     chrome.storage.sync.get('hfApiKey', async (data) => {
         const apiKey = data.hfApiKey;
@@ -74,18 +76,14 @@ optimizeButton.addEventListener('click', async () => {
         if (!apiKey) {
             statusDiv.textContent = 'Hugging Face API Key not set. Please set it in the settings.';
             optimizeButton.disabled = false;
+            optimizeButton.textContent = originalButtonText;
             return;
         }
 
-        statusDiv.textContent = 'Optimizing...';
-
         try {
-
             const result = await callMixtralPromptOptimizer(promptToOptimize, apiKey);
 
-
             if (result && result.rewrittenText) {
-
                 promptInputElement.value = result.rewrittenText;
                 await navigator.clipboard.writeText(result.rewrittenText);
 
@@ -96,17 +94,21 @@ optimizeButton.addEventListener('click', async () => {
 
                 localStorage.setItem('lastPrompt', result.rewrittenText);
 
-                statusDiv.textContent = 'Optimized & copied!';
+                optimizeButton.textContent = 'Optimised & Copied!';
 
             } else {
-                throw new Error("The API did not return a valid rewritten prompt. It might be loading. Please try again in a moment.");
+                throw new Error("The API did not return a valid rewritten prompt.");
             }
 
         } catch (err) {
             console.error("An error occurred during optimization:", err);
             statusDiv.textContent = `Error: ${err.message}`;
+            optimizeButton.textContent = 'Error!';
         } finally {
-            optimizeButton.disabled = false;
+            setTimeout(() => {
+                optimizeButton.disabled = false;
+                optimizeButton.textContent = originalButtonText;
+            }, 2000);
         }
     });
 });
@@ -128,7 +130,6 @@ async function callMixtralPromptOptimizer(promptToOptimize, apiKey) {
         }
     };
 
-    if (statusDiv) statusDiv.textContent = 'Calling model...';
 
     const response = await fetch(MODEL_API_URL, {
         method: 'POST',

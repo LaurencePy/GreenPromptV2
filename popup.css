@@ -33,7 +33,7 @@ body {
   font-weight: bold;
   border: none;
   background-color: #283618;
-  color: #606C38;
+  color: #a7b47f;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
@@ -58,7 +58,7 @@ footer::after {
 	font-weight: bold;
 	border: none;
 	background-color: #283618;
-	color: #606C38;
+	color: #a7b47f;
 	border-radius: 6px;
 	cursor: pointer;
 	font-size: 14px;
@@ -72,39 +72,78 @@ footer::after {
 	font-weight: bold;
 	border: none;
 	background-color: #283618;
-	color: #606C38;
+	color: #a7b47f;
 	border-radius: 6px;
 	cursor: pointer;
 	font-size: 14px;
 }
 
-#prompt-input, .stats, #status {
-    margin-left: 10px;
-    margin-right: 10px;
-    width: calc(100% - 20px);
-    box-sizing: border-box;
+#prompt-input, #status {
+	margin-left: 10px;
+	margin-right: 10px;
+	width: calc(100% - 20px);
+	box-sizing: border-box;
 }
 
 #prompt-input {
-    height: 100px;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    resize: none;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-#status {
-  margin-top: 10px;
-  font-size: 12px;
-  color: green;
-  min-height: 1em;
+	background-color: #283618;
+	color: #FEFAE0;
+	border: 1px solid #283618;
+	font-family: monospace;
+	font-size: 14px;
+	border-radius: 6px;
 }
 
 .stats {
-    margin-top: 15px;
-    padding-bottom: 10px;
+	background-color: #283618;
+	color: #FEFAE0;
+	border-radius: 6px;
+	padding: 10px 15px;
+	margin-top: 15px;
+	display: inline-grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 5px 15px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.stats-container {
+	text-align: center;
+	width: 100%;
+}
+
+#prompt-input:focus {
+	outline: none;
+	border: 1px solid #FEFAE0;
+}
+
+#prompt-input::placeholder {
+	color: #a7b47f;
+	opacity: 1;
+}
+
+#status.visible {
+	opacity: 1;
+}
+
+#status.warning {
+	background-color: #BC6C25;
+}
+
+#status.success {
+	background-color: #A3B18A;
+	color: #283618;
+}
+
+
+.stats p {
+	margin: 0;
+	color: #a7b47f;
+}
+
+.stats span {
+	font-weight: bold;
+	text-align: right;
 }
 
 .footer-buttons {

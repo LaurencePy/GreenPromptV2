@@ -40,48 +40,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     const promptInputElement = document.getElementById('prompt-input');
-    const optimizeButton = document.getElementById('optimize-btn');
+    const optimiseButton = document.getElementById('optimise-btn');
     const helpButton = document.getElementById('help-btn');
     const statusDiv = document.getElementById('status');
-    const outputDiv = document.getElementById('optimized-output');
+    const outputDiv = document.getElementById('optimised-output');
 
     const inputTokensSpan = document.getElementById('input-tokens');
     const outputTokensSpan = document.getElementById('output-tokens');
 
-    if (!optimizeButton) {
-        console.error("Element with ID 'optimize-btn' not found!");
-        if (statusDiv) statusDiv.textContent = "Error: Optimize button not found in HTML.";
+    if (!optimiseButton) {
+        console.error("Element with ID 'optimise-btn' not found!");
+        if (statusDiv) statusDiv.textContent = "Error: optimise button not found in HTML.";
         return;
     }
 
     if (statusDiv) statusDiv.textContent = '';
-    optimizeButton.disabled = false;
+    optimiseButton.disabled = false;
 
-optimizeButton.addEventListener('click', async () => {
-    const originalButtonText = 'Optimize & Copy';
-    const promptToOptimize = promptInputElement.value.trim();
+optimiseButton.addEventListener('click', async () => {
+    const originalButtonText = 'optimise & Copy';
+    const promptTooptimise = promptInputElement.value.trim();
 
-    if (!promptToOptimize) {
+    if (!promptTooptimise) {
         statusDiv.textContent = 'Please enter a prompt.';
         return;
     }
 
     statusDiv.textContent = '';
-    optimizeButton.disabled = true;
-    optimizeButton.textContent = 'Optimizing...';
+    optimiseButton.disabled = true;
+    optimiseButton.textContent = 'Optimizing...';
 
     chrome.storage.sync.get('hfApiKey', async (data) => {
         const apiKey = data.hfApiKey;
 
         if (!apiKey) {
             statusDiv.textContent = 'Hugging Face API Key not set. Please set it in the settings.';
-            optimizeButton.disabled = false;
-            optimizeButton.textContent = originalButtonText;
+            optimiseButton.disabled = false;
+            optimiseButton.textContent = originalButtonText;
             return;
         }
 
         try {
-            const result = await callMixtralPromptOptimizer(promptToOptimize, apiKey);
+            const result = await callMixtralPromptoptimiser(promptTooptimise, apiKey);
 
             if (result && result.rewrittenText) {
                 promptInputElement.value = result.rewrittenText;
@@ -94,7 +94,7 @@ optimizeButton.addEventListener('click', async () => {
 
                 localStorage.setItem('lastPrompt', result.rewrittenText);
 
-                optimizeButton.textContent = 'Optimised & Copied!';
+                optimiseButton.textContent = 'Optimised & Copied!';
 
             } else {
                 throw new Error("The API did not return a valid rewritten prompt.");
@@ -103,11 +103,11 @@ optimizeButton.addEventListener('click', async () => {
         } catch (err) {
             console.error("An error occurred during optimization:", err);
             statusDiv.textContent = `Error: ${err.message}`;
-            optimizeButton.textContent = 'Error!';
+            optimiseButton.textContent = 'Error!';
         } finally {
             setTimeout(() => {
-                optimizeButton.disabled = false;
-                optimizeButton.textContent = originalButtonText;
+                optimiseButton.disabled = false;
+                optimiseButton.textContent = originalButtonText;
             }, 2000);
         }
     });
@@ -116,12 +116,12 @@ optimizeButton.addEventListener('click', async () => {
 
 });
 
-async function callMixtralPromptOptimizer(promptToOptimize, apiKey) {
+async function callMixtralPromptoptimiser(promptTooptimise, apiKey) {
     const statusDiv = document.getElementById('status');
-    const inputTokens = simpleTokenize(promptToOptimize).length;
+    const inputTokens = simpleTokenize(promptTooptimise).length;
 
     const requestBody = {
-        inputs: `Rewrite the following prompt to be as short as possible without changing its meaning. Remove all politeness markers and unnecessary words.\nReturn ONLY the rewritten prompt, with NO extra words, explanations, or quotes.\nInput prompt: """${promptToOptimize}"""`,
+        inputs: `Rewrite the following prompt to be as short as possible without changing its meaning. Remove all politeness markers and unnecessary words.\nReturn ONLY the rewritten prompt, with NO extra words, explanations, or quotes.\nInput prompt: """${promptTooptimise}"""`,
         parameters: {
             max_new_tokens: 60,
             temperature: 0.1,

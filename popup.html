@@ -11,7 +11,7 @@
         <div id="header">
             <img src="icons/small stack transparent.png" alt="GreenPrompt">
         </div>
-        <textarea id="prompt-input" rows="5" placeholder="Enter the prompt you want to shorten"></textarea>
+        <textarea id="prompt-input" rows="5" placeholder="Enter a prompt to optimize"></textarea>
         <button id="optimize-btn">Optimize & Copy</button>
         <div id="status"></div>
 
@@ -21,7 +21,14 @@
         </div>
         
         <footer>
-            <button id="options-btn">Settings</button>
+            <div class="footer-buttons">
+                <button id="options-btn" class="footer-btn">Settings</button>
+                <button id="help-btn" class="footer-btn">Help</button>
+            </div>
+            <div class="credits-footer">
+                <p><a href="https://github.com/LaurencePy/GreenPromptV2" target="_blank">Made by Laurence Eaton</a></p>
+                <p><a href="#" target="_blank">Designs by Charlotte Keane</a></p>
+            </div>
         </footer>
     </div>
     <script src="popup.js"></script>

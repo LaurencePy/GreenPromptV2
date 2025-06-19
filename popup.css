@@ -39,19 +39,43 @@ body {
   font-size: 14px;
 }
 
+footer {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+footer::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
 #options-btn {
-  margin-top: 10px;
-  width: calc(30%);
-  margin-left: 0px;
-  margin-right: 60%;
-  padding: 12px;
-  font-weight: bold;
-  border: none;
-  background-color: #283618;
-  color: #606C38;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
+	float: left;
+	width: 40%;
+	margin-left: 5%;
+	padding: 12px;
+	font-weight: bold;
+	border: none;
+	background-color: #283618;
+	color: #606C38;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+#help-btn {
+	float: right;
+	width: 40%;
+	margin-right: 5%;
+	padding: 12px;
+	font-weight: bold;
+	border: none;
+	background-color: #283618;
+	color: #606C38;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 14px;
 }
 
 #prompt-input, .stats, #status {
@@ -81,4 +105,38 @@ body {
 .stats {
     margin-top: 15px;
     padding-bottom: 10px;
+}
+
+.footer-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.footer-btn {
+    width: 48%;
+    padding: 8px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.credits-footer {
+    text-align: center;
+    padding: 5px 10px 5px 10px;
+}
+
+.credits-footer p {
+    margin: 2px 0;
+}
+
+.credits-footer a {
+    font-size: 11px;
+    color: #283618;
+    text-decoration: none;
+}
+
+.credits-footer a:hover {
+    text-decoration: wavy underline;
 }

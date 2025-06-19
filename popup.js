@@ -9,11 +9,11 @@ function simpleTokenize(text) {
 }
 
 
-// Extract only the rewritten prompt from the AI output (assumes last non-empty line is the prompt)
+
 function extractRewrittenPrompt(fullOutput) {
     if (!fullOutput) return "";
 
-    // Grab the last non-empty line
+
     const lines = fullOutput.trim().split('\n');
     let lastLine = "";
     for (let i = lines.length - 1; i >= 0; i--) {
@@ -24,10 +24,9 @@ function extractRewrittenPrompt(fullOutput) {
         }
     }
 
-    // Remove known prefixes like "Rewritten prompt:" or anything before a colon
+
     lastLine = lastLine.replace(/^.*?:\s*/, '');
 
-    // Remove all surrounding quotes including """ and ""
     lastLine = lastLine.replace(/^["']+|["']+$/g, '');
 
     return lastLine.trim();
@@ -42,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const promptInputElement = document.getElementById('prompt-input');
     const optimizeButton = document.getElementById('optimize-btn');
+    const helpButton = document.getElementById('help-btn');
     const statusDiv = document.getElementById('status');
     const outputDiv = document.getElementById('optimized-output');
 
@@ -80,29 +80,25 @@ optimizeButton.addEventListener('click', async () => {
         statusDiv.textContent = 'Optimizing...';
 
         try {
-            // SAFER APPROACH: Store result first, then check it.
+
             const result = await callMixtralPromptOptimizer(promptToOptimize, apiKey);
 
-            // Check if the result is valid and has the text we need
+
             if (result && result.rewrittenText) {
-                // Now it's safe to use the properties
+
                 promptInputElement.value = result.rewrittenText;
                 await navigator.clipboard.writeText(result.rewrittenText);
 
-                // Update stats
                 inputTokensSpan.textContent = result.inputTokens;
                 outputTokensSpan.textContent = result.outputTokens;
 
-                // Token savings
                 const savingsThisRun = Math.max(0, result.inputTokens - result.outputTokens);
 
-                // Store last prompt
                 localStorage.setItem('lastPrompt', result.rewrittenText);
 
                 statusDiv.textContent = 'Optimized & copied!';
 
             } else {
-                // Handle cases where the API didn't return a valid prompt
                 throw new Error("The API did not return a valid rewritten prompt. It might be loading. Please try again in a moment.");
             }
 
@@ -159,7 +155,6 @@ async function callMixtralPromptOptimizer(promptToOptimize, apiKey) {
 
     const results = await response.json();
 
-    // Check if the result is an array and has content before trying to access it
     if (Array.isArray(results) && results.length > 0) {
         const rawOutput = results[0]?.generated_text || results[0]?.summary_text;
 
@@ -174,9 +169,6 @@ async function callMixtralPromptOptimizer(promptToOptimize, apiKey) {
         }
     }
     
-    // If we reach here, the response was not in the expected format.
-    // We will let the calling function handle the error message.
-    // We explicitly return null to make the check clear.
     console.warn("API response was not in the expected format:", results);
     return null; 
 }

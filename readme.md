@@ -8,9 +8,13 @@ We use a highly efficient and low cost AI model (Mixtral-8x7B-Instruct-v0.1) thr
 
 This initial step removes unnecessary information whilst preserving your prompt's functional meaning. This means the larger, more energy-intensive model has less data to analyse, leading to a significant overall reduction in processing and energy use.
 
-  
-
 Simply paste in your prompt, press optimise, and your new efficient prompt will be copied to your clipboard and ready to use!
+
+### Demo
+
+![Demo](https://github.com/user-attachments/assets/3e4f7d70-4bf1-42a0-9886-487677305fe7)
+
+
 
 ### Extension page
 

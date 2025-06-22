@@ -2,7 +2,7 @@
 
 
 ![GreenPrompt](https://i.ibb.co/nqtQQW6j/Green-Prompt-title-small.png)
-![GreenPrompt-title](./icons/GreenPrompt title small.png)
+![GreenPrompt-title](./icons/GreenPrompt-title-small.png)
 
 [Install from Chrome Web Store](https://chromewebstore.google.com/detail/greenprompt/ojkbbbkllijlcdbjijcgcphebnjdonji)
 

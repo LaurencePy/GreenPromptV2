@@ -1,7 +1,7 @@
 
 
 
-![GreenPrompt](https://github.com/user-attachments/assets/1c01e782-9e7b-417e-bb61-731d9c6c4d81)
+![GreenPrompt](icons\GreenPrompt title small.png)
 
 
 [Install from Chrome Web Store](https://chromewebstore.google.com/detail/greenprompt/ojkbbbkllijlcdbjijcgcphebnjdonji)
@@ -17,10 +17,10 @@ Simply paste in your prompt, press optimise, and your new efficient prompt will 
 
 ### Demo
 
-![Demo](https://github.com/user-attachments/assets/3e4f7d70-4bf1-42a0-9886-487677305fe7)
+![Demo](GreenPromptDemofinal.gif)
 
 
 
 ### Extension page
 
-![Extension](https://github.com/user-attachments/assets/e95db60d-3123-4b2a-92be-3580e8ead156)
+![Extension](icons\GreenPrompt page.png)

@@ -1,7 +1,7 @@
 
 
 
-![GreenPrompt](icons\GreenPrompt title small.png)
+![GreenPrompt](/icons/GreenPrompt title small.png)
 
 
 [Install from Chrome Web Store](https://chromewebstore.google.com/detail/greenprompt/ojkbbbkllijlcdbjijcgcphebnjdonji)

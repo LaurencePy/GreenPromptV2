@@ -1,7 +1,7 @@
 
 
 
-![GreenPrompt](https://ibb.co/4w344QKp)
+![GreenPrompt](https://i.ibb.co/nqtQQW6j/Green-Prompt-title-small.png)
 
 
 [Install from Chrome Web Store](https://chromewebstore.google.com/detail/greenprompt/ojkbbbkllijlcdbjijcgcphebnjdonji)
@@ -17,10 +17,10 @@ Simply paste in your prompt, press optimise, and your new efficient prompt will 
 
 ### Demo
 
-![Demo](https://ibb.co/BHMzRyQ8)
+![Demo](https://i.ibb.co/204nBvCX/Green-Prompt-Demofinal.gif)
 
 
 
 ### Extension page
 
-![Extension page](https://ibb.co/q3j1vsps)
+![Extension page](https://i.ibb.co/YFQjxkhk/Green-Prompt-page.png)

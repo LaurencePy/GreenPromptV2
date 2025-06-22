@@ -1,10 +1,10 @@
 
 
 
-![GreenPrompt](https://raw.githubusercontent.com/LaurencePy/GreenPromptV2/4c3d878e0d9b7e1e1ed78d753398dccd68c32d12/icons/GreenPrompt%20title%20small.png?token=GHSAT0AAAAAADCAP72BOQVM6H4GSRQONZJQ2CVNU6Q)
+![GreenPrompt](https://github.com/user-attachments/assets/1c01e782-9e7b-417e-bb61-731d9c6c4d81)
 
 
-![Install from Chrome Web Store](https://chromewebstore.google.com/detail/greenprompt/ojkbbbkllijlcdbjijcgcphebnjdonji)
+[Install from Chrome Web Store](https://chromewebstore.google.com/detail/greenprompt/ojkbbbkllijlcdbjijcgcphebnjdonji)
 
 GreenPrompt is a **free chrome extension** that rewrites your AI prompts to be shorter and more efficient. 
 
@@ -23,4 +23,4 @@ Simply paste in your prompt, press optimise, and your new efficient prompt will 
 
 ### Extension page
 
-![Extension](https://raw.githubusercontent.com/LaurencePy/GreenPromptV2/refs/heads/main/icons/GreenPrompt%20page.png?token=GHSAT0AAAAAADCAP72AZFQCXT3DLQRRJJFA2CVNWLA)
+![Extension](https://github.com/user-attachments/assets/e95db60d-3123-4b2a-92be-3580e8ead156)

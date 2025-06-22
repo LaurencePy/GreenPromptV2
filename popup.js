@@ -43,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (helpButton) {
+        helpButton.addEventListener('click', () => {
+            window.open('https://github.com/LaurencePy/GreenPromptV2/issues', '_blank');
+        });
+    }
+
+
     if (!optimiseButton) {
         console.error("Element with ID 'optimise-btn' not found!");
         if (statusDiv) statusDiv.textContent = "Error: optimise button not found in HTML.";

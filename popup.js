@@ -1,6 +1,39 @@
-const MODEL_API_URL = "https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1";
+import { InferenceClient } from "@huggingface/inference";
 
 let originalPrompt = '';
+
+async function callMixtralPromptOptimiser(promptToOptimise, apiKey) {
+  const hf = new InferenceClient(apiKey);
+
+  try {
+    const response = await hf.chatCompletion({
+      provider: "together",
+      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an assistant that rewrites prompts to be as short as possible without changing their meaning. Remove politeness and unnecessary words.",
+        },
+        {
+          role: "user",
+          content: `Rewrite the following prompt to be as short as possible without changing its meaning. Return ONLY the rewritten prompt, with NO extra words, explanations, or quotes.\nInput prompt: """${promptToOptimise}"""`,
+        },
+      ],
+      max_tokens: 60,
+      temperature: 0.1,
+    });
+
+    return {
+      rewrittenText: response.choices[0].message.content,
+      inputTokens: promptToOptimise.split(/\s+/).length,
+      outputTokens: response.choices[0].message.content.split(/\s+/).length,
+    };
+  } catch (error) {
+    console.error("Error calling Mixtral prompt optimiser:", error);
+    throw error;
+  }
+}
 
 function simpleTokenise(text) {
     if (!text) return [];
@@ -49,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     if (!optimiseButton) {
         console.error("Element with ID 'optimise-btn' not found!");
         if (statusDiv) statusDiv.textContent = "Error: optimise button not found in HTML.";
@@ -75,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.storage.sync.get('hfApiKey', async (data) => {
             const apiKey = data.hfApiKey;
+            console.log('API Key:', apiKey, typeof apiKey);
 
             if (!apiKey) {
                 statusDiv.textContent = 'Hugging Face API Key not set. Please set it in the settings.';
@@ -84,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const result = await callMixtralPromptoptimiser(originalPrompt, apiKey);
+                const result = await callMixtralPromptOptimiser(originalPrompt, apiKey);
 
                 if (result && result.rewrittenText) {
                     promptInputElement.value = result.rewrittenText;
@@ -127,56 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-async function callMixtralPromptoptimiser(promptTooptimise, apiKey) {
-    const statusDiv = document.getElementById('status');
-    const inputTokens = simpleTokenise(promptTooptimise).length;
 
-    const requestBody = {
-        inputs: `Rewrite the following prompt to be as short as possible without changing its meaning. Remove all politeness markers and unnecessary words.\nReturn ONLY the rewritten prompt, with NO extra words, explanations, or quotes.\nInput prompt: """${promptTooptimise}"""`,
-        parameters: {
-            max_new_tokens: 60,
-            temperature: 0.1,
-            do_sample: false,
-            early_stopping: true
-        }
-    };
 
-    const response = await fetch(MODEL_API_URL, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
-    });
 
-    if (!response.ok) {
-        const errorBody = await response.text();
-        console.error(`Hugging Face API Error (${response.status}): ${response.statusText}`, errorBody);
-        let specificError = "API request failed.";
-        try {
-            const parsedError = JSON.parse(errorBody);
-            if (parsedError.error) specificError = parsedError.error;
-            else if (parsedError.detail) specificError = parsedError.detail;
-        } catch (e) {
-            specificError = errorBody.substring(0, 200);
-        }
-        throw new Error(`Hugging Face API error (${response.status}). Details: ${specificError}`);
-    }
-
-    const results = await response.json();
-
-    if (Array.isArray(results) && results.length > 0) {
-        const rawOutput = results[0]?.generated_text || results[0]?.summary_text;
-
-        if (rawOutput) {
-            const rewrittenText = extractRewrittenPrompt(rawOutput);
-            const outputTokens = simpleTokenise(rewrittenText).length;
-            
-            return { rewrittenText, inputTokens, outputTokens };
-        }
-    }
-    
-    console.warn("API response was not in the expected format:", results);
-    return null; 
-}

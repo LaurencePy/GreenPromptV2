@@ -25,7 +25,7 @@ async function callMixtralPromptOptimiser(promptToOptimise, apiKey) {
     });
 
     return {
-      rewrittenText: response.choices[0].message.content,
+      rewrittenText: response.choices[0].message.content.trim(),
       inputTokens: promptToOptimise.split(/\s+/).length,
       outputTokens: response.choices[0].message.content.split(/\s+/).length,
     };
@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.storage.sync.get('hfApiKey', async (data) => {
             const apiKey = data.hfApiKey;
-            console.log('API Key:', apiKey, typeof apiKey);
 
             if (!apiKey) {
                 statusDiv.textContent = 'Hugging Face API Key not set. Please set it in the settings.';

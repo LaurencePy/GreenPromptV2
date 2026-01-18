@@ -1,4 +1,4 @@
-
+# Currently not working due to a deprecated AI model being used. To be fixed shortly (after exam season)
 
 ![GreenPrompt-title](./icons/GreenPrompt-title-small.png)
 

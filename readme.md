@@ -1,4 +1,3 @@
-# Currently not working due to a deprecated AI model being used. To be fixed shortly (after exam season)
 
 ![GreenPrompt-title](./icons/GreenPrompt-title-small.png)
 
@@ -7,7 +6,7 @@
 GreenPrompt is a **free chrome extension** that rewrites your AI prompts to be shorter and more efficient. 
 
 By minimising unnecessary processing, it reduces wasted energy and helps make your daily AI use more sustainable.
-We use a highly efficient and low cost AI model (Mixtral-8x7B-Instruct-v0.1) through Huggingface to refine your prompt before it reaches a more powerful model such as GPT-4.
+We use a highly efficient and low cost AI model (Qwen2.5-3B-Instruct) through Huggingface to refine your prompt before it reaches a more powerful model used for reasoning such as GPT-5.
 
 This initial step removes unnecessary information whilst preserving your prompt's functional meaning. This means the larger, more energy-intensive model has less data to analyse, leading to a significant overall reduction in processing and energy use.
 

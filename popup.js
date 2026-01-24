@@ -2,58 +2,37 @@ import { InferenceClient } from "@huggingface/inference";
 
 let originalPrompt = '';
 
-async function callMixtralPromptOptimiser(promptToOptimise, apiKey) {
-  const hf = new InferenceClient(apiKey);
+async function callPromptOptimiser(promptToOptimise, apiKey) {
+  const client = new InferenceClient(apiKey);
 
   try {
-    const response = await hf.chatCompletion({
-      provider: "together",
-      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+    const response = await client.chatCompletion({
+      model: "Qwen/Qwen2.5-7B-Instruct",
       messages: [
         {
           role: "system",
-          content:
-            "You are an assistant that rewrites prompts to be as short as possible without changing their meaning. Remove politeness and unnecessary words.",
+          content: "You are an assistant that rewrites prompts to be as short as possible without changing their meaning. Remove politeness and unnecessary words.",
         },
         {
           role: "user",
-          content: `Rewrite the following prompt to be as short as possible without changing its meaning. Return ONLY the rewritten prompt, with NO extra words, explanations, or quotes.\nInput prompt: """${promptToOptimise}"""`,
+          content: `Rewrite the following prompt to be as short as possible without changing its meaning. Remove politeness and unnecessary words. Return ONLY the rewritten prompt, with NO extra words, explanations, or quotes.\nInput prompt: """${promptToOptimise}"""`,
         },
       ],
       max_tokens: 60,
       temperature: 0.1,
     });
 
+    const rewrittenText = response.choices[0].message.content.trim();
+
     return {
-      rewrittenText: response.choices[0].message.content.trim(),
+      rewrittenText: rewrittenText,
       inputTokens: promptToOptimise.split(/\s+/).length,
-      outputTokens: response.choices[0].message.content.split(/\s+/).length,
+      outputTokens: rewrittenText.split(/\s+/).length,
     };
   } catch (error) {
-    console.error("Error calling Mixtral prompt optimiser:", error);
+    console.error("Error calling prompt optimiser:", error);
     throw error;
   }
-}
-
-function simpleTokenise(text) {
-    if (!text) return [];
-    return text.trim().split(/\s+|(?=[,.!?:;])/).filter(Boolean);
-}
-
-function extractRewrittenPrompt(fullOutput) {
-    if (!fullOutput) return "";
-    const lines = fullOutput.trim().split('\n');
-    let lastLine = "";
-    for (let i = lines.length - 1; i >= 0; i--) {
-        const line = lines[i].trim();
-        if (line) {
-            lastLine = line;
-            break;
-        }
-    }
-    lastLine = lastLine.replace(/^.*?:\s*/, '');
-    lastLine = lastLine.replace(/^["']+|["']+$/g, '');
-    return lastLine.trim();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -63,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const revertButton = document.getElementById('revert-btn');
     const helpButton = document.getElementById('help-btn');
     const statusDiv = document.getElementById('status');
-    const outputDiv = document.getElementById('optimised-output');
 
     const inputTokensSpan = document.getElementById('input-tokens');
     const outputTokensSpan = document.getElementById('output-tokens');
@@ -81,15 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open('https://github.com/LaurencePy/GreenPromptV2/issues', '_blank');
         });
     }
-
-    if (!optimiseButton) {
-        console.error("Element with ID 'optimise-btn' not found!");
-        if (statusDiv) statusDiv.textContent = "Error: optimise button not found in HTML.";
-        return;
-    }
-
-    if (statusDiv) statusDiv.textContent = '';
-    optimiseButton.disabled = false;
 
     optimiseButton.addEventListener('click', async () => {
         const originalButtonText = 'Optimise & Copy';
@@ -116,7 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const result = await callMixtralPromptOptimiser(originalPrompt, apiKey);
+                // Call the updated function name
+                const result = await callPromptOptimiser(originalPrompt, apiKey);
 
                 if (result && result.rewrittenText) {
                     promptInputElement.value = result.rewrittenText;
@@ -129,11 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     optimiseButton.textContent = 'Optimised & Copied!';
                     revertButton.classList.remove('hidden');
-
                 } else {
-                    throw new Error("The API did not return a valid rewritten prompt.");
+                    throw new Error("The API did not return a valid response.");
                 }
-
             } catch (err) {
                 console.error("An error occurred during optimisation:", err);
                 statusDiv.textContent = `Error: ${err.message}`;
@@ -158,7 +126,3 @@ document.addEventListener('DOMContentLoaded', () => {
         revertButton.classList.add('hidden');
     });
 });
-
-
-
-
